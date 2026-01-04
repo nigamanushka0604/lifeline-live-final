@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+
 import { GoogleGenAI } from "@google/genai";
 import { Hospital } from "../types";
 
@@ -28,21 +28,19 @@ export class GeminiService {
     `;
 
     try {
-      // Correct initialization: Always use a named parameter with process.env.API_KEY.
-      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
+      // Always use the process.env.API_KEY and the named parameter initialization as per guidelines.
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       const response = await ai.models.generateContent({
-        // Using 'gemini-3-flash-preview' for basic text tasks like summarization and Q&A.
+        // Using 'gemini-3-flash-preview' for basic text tasks like triage advice.
         model: 'gemini-3-flash-preview',
         contents: prompt,
         config: {
           temperature: 0.2,
-          // Avoiding setting maxOutputTokens without a thinkingBudget to prevent empty responses.
-          // For this short text task, default token limits are appropriate.
         }
       });
 
-      // Extract text content using the .text property (not a method).
+      // Extract text content directly from the .text property.
       return response.text || "I'm sorry, I couldn't process that. Please check the hospital list directly.";
     } catch (error) {
       console.error("Gemini Error:", error);
