@@ -1,4 +1,4 @@
-
+/// <reference types="vite/client" />
 import { GoogleGenAI } from "@google/genai";
 import { Hospital } from "../types";
 
@@ -29,7 +29,7 @@ export class GeminiService {
 
     try {
       // Correct initialization: Always use a named parameter with process.env.API_KEY.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
       
       const response = await ai.models.generateContent({
         // Using 'gemini-3-flash-preview' for basic text tasks like summarization and Q&A.
